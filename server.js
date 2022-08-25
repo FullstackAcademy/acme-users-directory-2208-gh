@@ -19,6 +19,25 @@ app.get('/api/users', async(req, res, next)=> {
   }
 });
 
+app.post('/api/users', async(req, res, next)=> {
+  try {
+    res.send(await User.create(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+app.put('/api/users/:id', async(req, res, next)=> {
+  try {
+    const user = await User.findByPk(req.params.id);
+    res.send(await user.update(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 const start = async()=> {
   try {
     await conn.sync({ force: true });
